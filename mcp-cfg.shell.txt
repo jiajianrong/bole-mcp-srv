@@ -1,4 +1,4 @@
-claude mcp add --scope user bole-story python "D:/work/source/bole-mcp-srv/src/server.py"
+claude mcp add --scope user bole-story-creator python "D:/work/source/bole-mcp-srv/src/server.py"
 
 这会把配置写到 .claude.json 的全局区域，而不是某个具体 project 下，任何目录打开 Claude Code 都能用。
 
