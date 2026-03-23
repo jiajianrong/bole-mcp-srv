@@ -263,33 +263,34 @@ def get_final_video(token: str, workspace_id: str) -> str:
 
 
 def main(text: str) -> str:
-    # _BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    # with open(os.path.join(_BASE_DIR, "auth-cfg.txt"), "r", encoding="utf-8") as f:
-    #     token = f.read().strip()
-    token = create_access_token()
-    project_id = "2033716579396616193"
-    print(f"projectId: {project_id}")
-    episode_id = create_episode(token, project_id)
-    workspace_id = create_workspace(token, project_id, episode_id)
-    time.sleep(10)
-
-    create_storyboard(token, project_id, episode_id, workspace_id, text)
-
-    init_tracks(token, workspace_id)
-    while not get_tracks(token, workspace_id):
+    try:
+        token = create_access_token()
+        project_id = "2033716579396616193"
+        print(f"projectId: {project_id}", file=sys.stderr)
+        episode_id = create_episode(token, project_id)
+        workspace_id = create_workspace(token, project_id, episode_id)
         time.sleep(10)
-    
-    init_videos(token, workspace_id)
-    while not get_tracks(token, workspace_id):
-        time.sleep(10)
-    
-    final_edit(token, workspace_id)
-    while not check_final_video_status(token, workspace_id):
-        time.sleep(10)
-    
-    final_video_url = get_final_video(token, workspace_id)
 
-    return f"故事创作完成！projectId={project_id}, episodeId={episode_id}, workspaceId={workspace_id}。控制台链接：https://bole.bonanai.com/story/{project_id}?episodeId={episode_id} 。视频链接：{final_video_url}"
+        create_storyboard(token, project_id, episode_id, workspace_id, text)
+
+        init_tracks(token, workspace_id)
+        while not get_tracks(token, workspace_id):
+            time.sleep(10)
+        
+        init_videos(token, workspace_id)
+        while not get_tracks(token, workspace_id):
+            time.sleep(10)
+        
+        final_edit(token, workspace_id)
+        while not check_final_video_status(token, workspace_id):
+            time.sleep(10)
+        
+        final_video_url = get_final_video(token, workspace_id)
+
+        result = f"故事创作完成！projectId={project_id}, episodeId={episode_id}, workspaceId={workspace_id}。控制台链接：https://bole.bonanai.com/story/{project_id}?episodeId={episode_id} 。视频链接：{final_video_url}"
+        return {"result": result}
+    except Exception as e:
+        return {"error": str(e)}
 
 
 if __name__ == "__main__":
