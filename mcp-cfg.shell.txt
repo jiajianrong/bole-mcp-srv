@@ -1,0 +1,22 @@
+claude mcp add --scope user bole-story python "D:/work/source/bole-mcp-srv/src/server.py"
+
+这会把配置写到 .claude.json 的全局区域，而不是某个具体 project 下，任何目录打开 Claude Code 都能用。
+
+
+
+---
+三种 scope 对比：
+
+claude mcp add --scope local   ...  → 写入当前项目（默认行为）
+claude mcp add --scope user    ...  → 全局，所有项目可用
+claude mcp add --scope project ...  → 写入当前目录的 .mcp.json 文件
+
+
+
+
+
+bole-mcp-srv/
+└── src/
+    ├── server.py          # 给 Claude Code（MCP）
+    ├── create_episode.py  # 业务逻辑
+    └── cli.py             # 给 OpenClaw
