@@ -7,7 +7,7 @@ import os
 
 # 测试输入
 input_data = {
-    "text": "生成狐假虎威的故事"
+    "text": "生成掩耳盗铃的故事"
 }
 
 # 转换为JSON字符串
