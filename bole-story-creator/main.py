@@ -4,6 +4,7 @@ import time
 import urllib.request
 from datetime import datetime
 import uuid
+import sys
 
 
 def generate_uuid() -> str:
@@ -27,7 +28,7 @@ def create_access_token() -> str:
 
     resp_json = json.loads(resp_body)
     access_token = resp_json.get("data", {}).get("access_token")
-    print(f"access_token: {access_token}")
+    print(f"access_token: {access_token}", file=sys.stderr)
     return access_token
 
 
@@ -55,7 +56,7 @@ def create_episode(token: str, project_id: str) -> str:
 
     resp_json = json.loads(resp_body)
     episode_id = resp_json.get("data")
-    print(f"episodeId: {episode_id}")
+    print(f"episodeId: {episode_id}", file=sys.stderr)
     return episode_id
 
 
@@ -82,7 +83,7 @@ def create_workspace(token: str, project_id: str, episode_id: str) -> str:
 
     resp_json = json.loads(resp_body)
     workspace_id = resp_json.get("data", {}).get("id")
-    print(f"workspaceId: {workspace_id}")
+    print(f"workspaceId: {workspace_id}", file=sys.stderr)
     return workspace_id
 
 
@@ -137,7 +138,7 @@ def create_storyboard(
             line = raw_line.decode("utf-8").strip()
             if "disconnect" not in line:
                 continue
-            print(line)
+            print(line, file=sys.stderr)
 
 
 def init_tracks(token: str, workspace_id: str) -> None:
@@ -155,7 +156,7 @@ def init_tracks(token: str, workspace_id: str) -> None:
         resp_body = resp.read().decode("utf-8")
 
     resp_json = json.loads(resp_body)
-    print(f"init tracks res: {resp_json}")
+    print(f"init tracks res: {resp_json}", file=sys.stderr)
 
 
 def init_videos(token: str, workspace_id: str) -> None:
@@ -173,7 +174,7 @@ def init_videos(token: str, workspace_id: str) -> None:
         resp_body = resp.read().decode("utf-8")
 
     resp_json = json.loads(resp_body)
-    print(f"init videos res: {resp_json}")
+    print(f"init videos res: {resp_json}", file=sys.stderr)
 
 
 def final_edit(token: str, workspace_id: str) -> None:
@@ -191,7 +192,7 @@ def final_edit(token: str, workspace_id: str) -> None:
         resp_body = resp.read().decode("utf-8")
 
     resp_json = json.loads(resp_body)
-    print(f"final edit res: {resp_json}")
+    print(f"final edit res: {resp_json}", file=sys.stderr)
 
 
 def get_tracks(token: str, workspace_id: str) -> bool:
@@ -212,7 +213,7 @@ def get_tracks(token: str, workspace_id: str) -> bool:
     tracks = resp_json.get("data", [])
     # 判断每个track的resource字段是否有值，都有值则返回true
     all_tracks_ready = bool(tracks) and all(track.get("resource") for track in tracks)
-    print(f"tracks ready: {all_tracks_ready}")
+    print(f"tracks ready: {all_tracks_ready}", file=sys.stderr)
     return all_tracks_ready
 
 
@@ -234,7 +235,7 @@ def check_final_video_status(token: str, workspace_id: str) -> bool:
     data = resp_json.get("data", {})
     # 判断data.status是否为9
     status = data.get("status", -1)
-    print(f"final video status: {status}")
+    print(f"final video status: {status}", file=sys.stderr)
     return status == 9
 
 
@@ -257,7 +258,7 @@ def get_final_video(token: str, workspace_id: str) -> str:
     finalVideo = data.get("finalVideo", {})
     finalVideoList = finalVideo.get("finalVideoList", [])
     url = finalVideoList[0].get("url", "") if finalVideoList else ""
-    print(f"final video url: {url}")
+    print(f"final video url: {url}", file=sys.stderr)
     return url
 
 
@@ -269,7 +270,7 @@ def main(inputs):
     try:
         token = create_access_token()
         project_id = "2033716579396616193"
-        print(f"projectId: {project_id}")
+        print(f"projectId: {project_id}", file=sys.stderr)
         episode_id = create_episode(token, project_id)
         workspace_id = create_workspace(token, project_id, episode_id)
         time.sleep(10)
