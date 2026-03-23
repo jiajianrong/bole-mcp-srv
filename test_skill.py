@@ -15,7 +15,7 @@ input_json = json.dumps(input_data)
 
 # 调用技能
 result = subprocess.run(
-    ['python', 'bole-story-creator/main.py', input_json],
+    ['python', 'bole-story-skills/scripts/main.py', input_json],
     capture_output=True,
     text=True
 )
