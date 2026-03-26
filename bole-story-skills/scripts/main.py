@@ -286,10 +286,10 @@ if __name__ == "__main__":
         try:
             inputs = json.loads(sys.argv[1])
             result = main(inputs)
-            print(json.dumps(result))
+            print(json.dumps(result, ensure_ascii=False))
         except json.JSONDecodeError:
             print(json.dumps({"error": "Invalid JSON input"}))
         except Exception as e:
-            print(json.dumps({"error": str(e)}))
+            print(json.dumps({"error": e}, ensure_ascii=False))
     else:
         print(json.dumps({"error": "No input provided"}))
